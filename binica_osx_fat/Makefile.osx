@@ -1,0 +1,39 @@
+PLAT = _osx
+
+MACOSX_DEPLOYMENT_TARGET = 10.5
+CFLAGS    = -ansi -arch ppc7400 -arch ppc64 -arch i386 -arch x86_64 -g -Os -pipe -no-cpp-precomp
+LDFLAGS   = -ansi -arch ppc7400 -arch ppc64 -arch i386 -arch x86_64 
+
+CC        = gcc
+OBJS      = ica.o pvmica.o interfc.o memap.o r250.o randlcg.o dsum.o
+
+LIBS      = -framework vecLib -lm
+INCLUDE   =
+OBJS      = ica.o interfc.o r250.o randlcg.o dsum.o
+
+ica_osx: Makefile.osx ica.h pvmica.h memap.h $(OBJS)
+	$(CC) -o ica_osx $(OBJS) $(LIBS) $(LDFLAGS)
+
+ica.o: Makefile.osx ica.h pvmica.h memap.h ica.c
+	$(CC) -c ica.c $(CFLAGS) $(INCLUDE)
+
+pvmica.o: Makefile.osx ica.h pvmica.h pvmica.c
+	$(CC) -c pvmica.c $(CFLAGS) $(INCLUDE)
+
+interfc.o: Makefile.osx ica.h memap.h interfc.c
+	$(CC) -c interfc.c $(CFLAGS) $(INCLUDE)
+
+memap.o: Makefile.osx memap.h memap.c
+	$(CC) -c memap.c $(CFLAGS) $(INCLUDE)
+
+r250.o: Makefile.osx r250.h r250.c
+	$(CC) -c r250.c $(CFLAGS) $(INCLUDE)
+
+randlcg.o: Makefile.osx randlcg.h randlcg.c
+	$(CC) -c randlcg.c $(CFLAGS) $(INCLUDE)
+
+dsum.o: Makefile.osx dsum.c
+	$(CC) -c dsum.c $(CFLAGS) $(INCLUDE)
+
+clean:
+	rm -f *.o

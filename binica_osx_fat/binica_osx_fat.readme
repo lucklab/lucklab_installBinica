@@ -1,0 +1,67 @@
+Compiling Binica under MacOSX 10.5 to create FAT binary for both 32 and 64 bit PPC and Intel architectures
+
+(Compiled by Grega Repovs based on previous package by William Beaudot)
+
+A/ ADJUST MAKEFILE
+
+1) Use Makefile.bsd as a starting point and rename it Makefile.osx.
+2) Edit it, and make the following changes:
+	- Remove all references to PVM, MMAP, BLASLIB, LAPACKLIB, and F2CLIB
+	- Be sure to modify the lines:
+		
+		# Deployment info
+		MACOSX_DEPLOYMENT_TARGET = 10.5
+
+		# Compilation flags for fat binary:
+		CFLAGS    = -ansi -arch ppc7400 -arch ppc64 -arch i386 -arch x86_64 -g -Os -pipe -no-cpp-precomp
+		# Linking flags for fat binary:
+		LDFLAGS   = -ansi -arch ppc7400 -arch ppc64 -arch i386 -arch x86_64 
+
+		LIBS      = -framework vecLib -lm
+		INCLUDE   =
+		OBJS      = ica.o interfc.o memap.o r250.o randlcg.o dsum.o
+
+		# Linking binica binary
+		ica_osx: Makefile.osx ica.h pvmica.h memap.h $(OBJS)			$(CC) -o ica_osx $(OBJS) $(LIBS) $(LDFLAGS)
+	
+	- Rename ica_bsd to ica_osx
+	- Replace all occurrences of Makefile.bsd to Makefile.osx
+
+B/ ADJUST C SOURCE CODE
+
+3) Modify interfc.c:
+
+	- Add \n\ at the end of each line composing the help message (HELPMSG) from
+	line 50 to line 115
+	- Rename the function swtch (line 207) and all its references to swtch_ica
+	for example (the function swtch already exists)
+
+C/ BUILD AND CHECK
+
+4)  Compile with:	make -f Makefile.osx
+
+If the compilation succeeds, the file 'ica_osx' is created in the current folder.
+To check that it created fat binary use type:
+
+$ file ica_osx
+
+You should see the following output:
+
+ica_osx: Mach-O universal binary with 4 architectures
+ica_osx (for architecture ppc7400):	Mach-O executable ppc
+ica_osx (for architecture ppc64):	Mach-O 64-bit executable ppc64
+ica_osx (for architecture i386):	Mach-O executable i386
+ica_osx (for architecture x86_64):	Mach-O 64-bit executable x86_64
+
+Type ./ica_osx to execute it, a help message should be displayed. Copy this file
+in your EEGLab Toolbox, and create a symbolic link in /bin
+$ cp ./ica_osx $EEGLAB
+$ cd $EEGLAB
+$ ln -s ./ica_osx /bin/ica_osx
+
+D/ SETUP FOR USE WITH EEGLAB
+
+5) Follow the EEGLAB instructions for using binica under Matlab (6.5 and above)
+
+	- Modify icadefs.m in the EEGLab Toolbox with:	ICABINARY = 'ica_osx';
+	- Launch EEGLab in Matlab and run pop_runica with binica as ICA algorithm
