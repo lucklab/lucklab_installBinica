@@ -2,8 +2,9 @@
 
 To install:
 
-- In Matlab, un LuckLab BINICA Installer script: `install_binica`
-- Edit the `icadefs.m` file to point to the `ica_osx` binary file.
+- **In Matlab, run `install_binica`**
+  - This will unzip the `binica_osx_fat` folder into your EEGLAB folder, and add it to your Matlab path and Unix path
+- **Edit `icadefs.m`**:  Set the `ICABINARY` variable to `'ica_osx'` binary file.
 - `.../eeglab13_x_x/functions/sigprocfunc/icadefs.m` (line 119)
   - ```matlab
     ...
