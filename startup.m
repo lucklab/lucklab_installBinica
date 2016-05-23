@@ -10,7 +10,9 @@ setenv('PATH', path_environment);
 % Test if Binica is installed
 [status, result] = system('ica_osx');
 if(strfind(result, 'command not found'))
-    display('        Binica Installed');
+    display('        Binica not installed');
 elseif(strfind(result, 'Permission denied'))
-    display('        Binica Installed: Permission denied');
+    display('        Binica not installed: Permission denied');
+else
+    display('Binica installed');
 end
