@@ -13,16 +13,21 @@ addpath(path_binica);
 
 
 % Test if Binica is installed
-[status, result] = system('ica_osx');
-if(strfind(result, 'command not found'))
-    display('        Binica not installed');
-elseif(strfind(result, 'Permission denied'))
-    display('        Binica not installed: Permission denied');
+if(exist('ica_osx') == 2) %#ok<EXIST>
+    display('Binica installed');
 else
+    display('Binica not installed: INSERT REASON');
     
-    if(exist('ica_osx') == 2) %#ok<EXIST>
-        display('Binica installed');
+    
+    % Find why BINICA (ica_osx) not installed
+    [status, result] = system('ica_osx');
+    if(strfind(result, 'command not found'))
+        display('        Binica not installed');
+    elseif(strfind(result, 'Permission denied'))
+        display('        Binica not installed: Permission denied');
     else
-        display('Binica not installed: INSERT REASON');
+        
     end
 end
+
+
