@@ -1,7 +1,6 @@
 % Add binica to Matlab's path
-path_startup     = userpath(); 
-path_startup     = path_startup(1:end-1);
-path_binica      = fullfile(path_startup, 'binica_osx_fat');
+[path_eeglab, ~] = fileparts(which('eeglab'));
+path_binica      = fullfile(path_eeglab, 'binica_osx_fat');
 path_environment = getenv('PATH');
 path_environment = [path_environment ':' path_binica];
 setenv('PATH', path_environment);
@@ -10,8 +9,8 @@ setenv('PATH', path_environment);
 
 % Test if Binica is installed
 [status, result] = system('ica_osx');
-if(isempty(strfind(result, 'command not found')))
+if(strfind(result, 'command not found'))
     display('        Binica Installed');
-else
-    display('Binica Not Installed');
+elseif(strfind(result, 'Permission denied'))
+    display('        Binica Installed: Permission denied');
 end
