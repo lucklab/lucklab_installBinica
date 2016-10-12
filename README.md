@@ -5,14 +5,14 @@ To install:
 - In Matlab, change directory to the `lucklab_installBinica` folder
 - Run the `install_binica` script
   - *This will unzip the `binica_osx_fat` folder into your EEGLAB folder, and add it to your Matlab path and Unix path*
-- Edit `icadefs.m`:  Set the `ICABINARY` variable to `'ica_osx'` binary file.
+- Edit `icadefs.m`:  Set the `ICABINARY` variable to `ICABINARY = fullfile(eeglab_p, 'binica_osx_fat', 'ica_osx');` binary file.
   - To open `icadefs.m`: `eeglab; open('icadefs.m');` 
   - Example: `.../eeglab13_x_x/functions/sigprocfunc/icadefs.m` (line 119)
     ```matlab
       ...
       % INSERT location of ica executable (LINUX ONLY) for binica.m below
       eeglab_p = fileparts(which('eeglab'));
-      ICABINARY = 'ica_osx';  % <<< EDIT HERE
+     ICABINARY = fullfile(eeglab_p, 'binica_osx_fat', 'ica_osx');;  % <<< EDIT HERE
       
       try
          set(0,'defaultaxesfontsize',AXES_FONTSIZE);
