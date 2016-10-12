@@ -12,7 +12,7 @@ To install:
       ...
       % INSERT location of ica executable (LINUX ONLY) for binica.m below
       eeglab_p = fileparts(which('eeglab'));
-     ICABINARY = fullfile(eeglab_p, 'binica_osx_fat', 'ica_osx');;  % <<< EDIT HERE
+      ICABINARY = fullfile(eeglab_p, 'binica_osx_fat', 'ica_osx');;  % <<< EDIT HERE
       
       try
          set(0,'defaultaxesfontsize',AXES_FONTSIZE);
